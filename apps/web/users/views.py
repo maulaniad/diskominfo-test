@@ -40,6 +40,7 @@ class UsersFormView(View):
                 'id': user_id,
                 'username': user_data.username,
                 'email': user_data.email,
+                'password': user_data.password,
                 'role': user_data.id_role.id if user_data.id_role else None,
             }
         )
