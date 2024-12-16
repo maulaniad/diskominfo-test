@@ -38,6 +38,7 @@ class CoursesRepository:
     def delete_course(course_id):
         return Courses.objects.filter(id=course_id).delete()
 
+
 class UsersRepository:
     @staticmethod
     def get_users():
@@ -121,3 +122,53 @@ class RolesRepository:
     @staticmethod
     def get_roles():
         return Roles.objects.all()
+
+
+class ChartQueriesRepository:
+    @staticmethod
+    def get_total_participants():
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                select c.course, c.mentor, c.title, count(u.id) as "jumlah_peserta" from usercourse uc
+                join courses c on c.id = uc.id_course 
+                join users u on u.id = uc.id_user
+                group by c.course, c.mentor, c.title
+                order by c.mentor;
+                """
+            )
+            data = cursor.fetchall()
+
+        formatted_list: list[dict] = []
+        for e in data:
+            formatted_list.append({
+                'course': e[0],
+                'mentor': e[1],
+                'title': e[2],
+                'participants': e[3]
+            })
+        return formatted_list
+
+    @staticmethod
+    def get_total_fees():
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                select c.mentor, count(u.id) as "jumlah_peserta", count(u.id) * 2000000 as "total_fee"
+                from usercourse uc
+                join courses c on c.id = uc.id_course 
+                join users u on u.id = uc.id_user
+                group by c.mentor
+                order by "total_fee" desc, c.mentor;
+                """
+            )
+            data = cursor.fetchall()
+
+        formatted_list: list[dict] = []
+        for e in data:
+            formatted_list.append({
+                'mentor': e[0],
+                'participants': e[1],
+                'total_fee': e[2]
+            })
+        return formatted_list

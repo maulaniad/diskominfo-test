@@ -4,6 +4,8 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
 
+from database.repositories import ChartQueriesRepository
+
 
 class LoginView(View):
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
@@ -57,4 +59,34 @@ class DashboardView(View):
             messages.error(request, "Harap login sebagai admin terlebih dahulu")
             return redirect(to="web:login")
 
-        return render(request, "pages/dashboard.html")
+        participants_data = ChartQueriesRepository.get_total_participants()
+
+        aggregated_participants = {}
+        for item in participants_data:
+            course = item["course"]
+            participants = item["participants"]
+            aggregated_participants[course] = aggregated_participants.get(course, 0) + participants
+
+        participants_label = list(aggregated_participants.keys())
+        participants_values = list(aggregated_participants.values())
+
+        fees_data = ChartQueriesRepository.get_total_fees()
+        aggregated_fees = {}
+        for item in fees_data:
+            mentor = item["mentor"]
+            fees = item["total_fee"]
+            aggregated_fees[mentor] = aggregated_fees.get(mentor, 0) + fees
+
+        fees_label = list(aggregated_fees.keys())
+        fees_values = list(aggregated_fees.values())
+
+        return render(
+            request,
+            "pages/dashboard.html",
+            {
+                'p_labels': participants_label,
+                'p_values': participants_values,
+                'f_labels': fees_label,
+                'f_values': fees_values
+            }
+        )

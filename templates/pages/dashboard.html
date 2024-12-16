@@ -4,42 +4,69 @@
 
 {% block content %}
 <div class="container">
-  <h1 class="text-center mb-4">Charts</h1>
-  <canvas id="myChart" style="max-height: 400px;"></canvas>
+  <h1 class="text-center mb-4">Total Peserta</h1>
+  <canvas id="participantsChart" style="max-height: 300px;"></canvas>
+  <div class="mb-5"></div>
+  <canvas id="feeChart" style="max-height: 400px;"></canvas>
 </div>
 
 <script>
-  const ctx = document.getElementById('myChart').getContext('2d');
-  const myChart = new Chart(ctx, {
-      type: 'bar',
+  const labels = {{ p_labels|safe }};
+  const values = {{ p_values|safe }};
+
+  const backgroundColors = [
+    'rgba(255, 99, 132, 0.2)',  // Red
+    'rgba(54, 162, 235, 0.2)',  // Blue
+    'rgba(255, 206, 86, 0.2)',  // Yellow
+    'rgba(75, 192, 192, 0.2)',  // Green
+    'rgba(153, 102, 255, 0.2)', // Purple
+    'rgba(255, 159, 64, 0.2)'   // Orange
+  ];
+
+  const ctx = document.getElementById('participantsChart').getContext('2d');
+  new Chart(ctx, {
+      type: 'pie', // You can change this to 'line', 'pie', etc.
       data: {
-          labels: ['January', 'February', 'March', 'April', 'May'],
+          labels: labels,
           datasets: [{
-              label: 'Sales',
-              data: [12, 19, 3, 5, 2],
-              backgroundColor: [
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 99, 132, 0.2)'
-              ],
-              borderColor: [
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 99, 132, 1)'
-              ],
-              borderWidth: 1
+              label: 'Jumlah Peserta',
+              data: values,
+              backgroundColor: backgroundColors.slice(0, values.length),
+              borderColor: 'rgba(0, 0, 0, 125)',
+              borderWidth: 0.5
           }]
       },
       options: {
-          responsive: true,
-          plugins: {
-              legend: {
-                  position: 'top',
-              },
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+
+
+  const f_labels = {{ f_labels|safe }};
+  const f_values = {{ f_values|safe }};
+
+  const fctx = document.getElementById('feeChart').getContext('2d');
+  new Chart(fctx, {
+      type: 'bar', // You can change this to 'line', 'pie', etc.
+      data: {
+          labels: f_labels,
+          datasets: [{
+              label: 'Jumlah Fee',
+              data: f_values,
+              backgroundColor: backgroundColors.slice(0, f_values.length),
+              borderColor: 'rgba(0, 0, 0, 125)',
+              borderWidth: 0.5
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
           }
       }
   });
