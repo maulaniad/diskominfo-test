@@ -8,7 +8,10 @@ from django.views import View
 class LoginView(View):
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         if request.session.get('logged_in', None):
-            return redirect("web:dashboard")
+            if request.session.get('is_admin', None):
+                return redirect("web:dashboard")
+            else:
+                return redirect("web:courses:index")
 
         return render(request, "pages/login.html")
 
@@ -48,6 +51,10 @@ class DashboardView(View):
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         if not request.session.get('logged_in', None):
             messages.error(request, "Harap login terlebih dahulu")
+            return redirect(to="web:login")
+
+        if not request.session.get('is_admin', None):
+            messages.error(request, "Harap login sebagai admin terlebih dahulu")
             return redirect(to="web:login")
 
         return render(request, "pages/dashboard.html")

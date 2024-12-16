@@ -2,11 +2,13 @@
   <h5 class="text-center">Course XYZ</h5>
   <hr>
   <ul class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item">
-        <a href="{% url "web:dashboard" %}" class="nav-link text-white {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-          Home
-        </a>
-      </li>
+      {% if request.session.is_admin %}
+        <li class="nav-item">
+          <a href="{% url "web:dashboard" %}" class="nav-link text-white {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+            Home
+          </a>
+        </li>
+      {% endif %}
       <li class="nav-item">
         <a href="{% url "web:courses:index" %}" class="nav-link text-white {% if request.resolver_match.url_name == 'charts' %}active{% endif %}">
           Courses
