@@ -2,8 +2,7 @@ from django.urls import path, include
 
 from apps.web.views import (LoginView,
                             LogoutView,
-                            DashboardView,
-                            UserCourseView)
+                            DashboardView)
 
 
 app_name = "web"
@@ -15,6 +14,5 @@ urlpatterns = [
 
     path('courses/', include('apps.web.courses.urls')),
     path('users/', include('apps.web.users.urls')),
-
-    path('usercourse', UserCourseView.as_view(), name="usercourse"),
+    path('usercourse/', include('apps.web.usercourse.urls')),
 ]

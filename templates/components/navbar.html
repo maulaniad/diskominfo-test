@@ -20,7 +20,7 @@
         </li>
       {% endif %}
       <li class="nav-item">
-        <a href="{% url "web:usercourse" %}" class="nav-link text-white {% if request.resolver_match.url_name == 'charts' %}active{% endif %}">
+        <a href="{% url "web:usercourse:index" %}" class="nav-link text-white {% if request.resolver_match.url_name == 'charts' %}active{% endif %}">
           User Course
         </a>
       </li>

@@ -4,8 +4,6 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
 
-from database.repositories import UserCourseRepository
-
 
 class LoginView(View):
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
@@ -53,13 +51,3 @@ class DashboardView(View):
             return redirect(to="web:login")
 
         return render(request, "pages/dashboard.html")
-
-
-class UserCourseView(View):
-    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
-        if request.session.get('is_admin', None):
-            data = UserCourseRepository.get_user_course()
-        else:
-            data = []
-
-        return render(request, "pages/usercourse/index.html", {'data': data})

@@ -1,0 +1,44 @@
+{% extends "index.html" %}
+
+{% block title %}Ambil course untuk user{% endblock title %}
+
+{% block content %}
+<div class="d-flex justify-content-center vh-100 bg-gray-100">
+  <div class="container">
+    <h1 class="text-center text-3xl font-semibold text-gray-800 mb-6">Ambil course untuk user</h1>
+
+    <!-- Form -->
+    <div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
+        <form method="POST" action="{% url 'web:usercourse:form-create' %}" class="row g-3">
+            {% csrf_token %}
+
+            <select name="course" id="course" class="form-select" required>
+                <option selected disabled value="">Pilih Course</option>
+                {% for course in courses %}
+                    {% if course.id == course_id %}
+                        <option value="{{ course.id }}" selected>{{ course.course }}</option>
+                        {% else %}
+                            <option value="{{ course.id }}">{{ course.course }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+
+            <select name="user" id="user" class="form-select" required>
+                <option selected disabled value="">Pilih User</option>
+                {% for user in users %}
+                    {% if user.id == user_id %}
+                        <option value="{{ user.id }}" selected>{{ user.username }}</option>
+                        {% else %}
+                            <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

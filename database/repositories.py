@@ -1,3 +1,5 @@
+from django.db import connection
+
 from database.models import Courses, Users, UserCourse, Roles
 
 
@@ -71,8 +73,49 @@ class UsersRepository:
 class UserCourseRepository:
     @staticmethod
     def get_user_course():
-        return UserCourse.objects.values('id_user', 'id_course')
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT u.id, u.username, c.id, c.course
+                FROM usercourse uc
+                JOIN users u ON uc.id_user = u.id
+                JOIN courses c ON uc.id_course = c.id
+                """
+            )
+            data = cursor.fetchall()
 
+        formatted_list = []
+        for course in data:
+            formatted_list.append(
+                {
+                    'id_user': course[0],
+                    'username': course[1],
+                    'id_course': course[2],
+                    'course': course[3]
+                }
+            )
+        return formatted_list
+
+    @staticmethod
+    def create_usercourse(data):
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO usercourse (id_user, id_course) VALUES (%s, %s)",
+                (data.get('id_user_id'), data.get('id_course_id'))
+            )
+        return True
+
+    @staticmethod
+    def delete_usercourse(user_id, course_id):
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                DELETE FROM usercourse
+                WHERE id_user = %s AND id_course = %s
+                """,
+                (user_id, course_id)
+            )
+        return True
 
 class RolesRepository:
     @staticmethod
