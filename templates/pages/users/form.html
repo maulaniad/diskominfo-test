@@ -8,29 +8,41 @@
     <h1 class="text-center text-3xl font-semibold text-gray-800 mb-6">Tambah User Baru</h1>
 
     <!-- Form -->
-    <div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">        
-        <form method="POST" action="{% url 'web:users-form' %}" class="row g-3">
+    <div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
+        {% if action == 'update' %}
+            <form method="POST" action="{% url 'web:users:form-detail' id=id %}" class="row g-3">
+            {% else %}
+                <form method="POST" action="{% url 'web:users:form-create' %}" class="row g-3">
+        {% endif %}
             {% csrf_token %}
 
             <div class="col-12">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" name="username" id="username" class="form-control" required>
+                <input type="text" name="username" id="username" class="form-control" value="{{ username }}" required>
             </div>
 
             <div class="col-12">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" name="email" id="email" class="form-control" required>
+                <input type="email" name="email" id="email" class="form-control" value="{{ email }}" required>
             </div>
 
             <div class="col-12">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" name="password" id="password" class="form-control" required>
+                {% if action == 'update' %}
+                    <input type="password" name="password" id="password" class="form-control" value="{{ password }}">
+                    {% else %}
+                        <input type="password" name="password" id="password" class="form-control" value="{{ password }}" required>
+                {% endif %}
             </div>
 
             <select name="role" id="role" class="form-select" required>
                 <option selected disabled value="">Pilih Role</option>
                 {% for item in roles %}
-                    <option value="{{ item.id }}">{{ item.role }}</option>
+                    {% if item.id == role %}
+                        <option value="{{ item.id }}" selected>{{ item.role }}</option>
+                        {% else %}
+                            <option value="{{ item.id }}">{{ item.role }}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
 

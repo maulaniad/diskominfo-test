@@ -42,7 +42,7 @@ class UsersRepository:
         return Users.objects.filter()
 
     @staticmethod
-    def get_my_user(user_id):
+    def get_user(user_id):
         return Users.objects.filter(id=user_id).first()
 
     @staticmethod
@@ -57,7 +57,9 @@ class UsersRepository:
         user.email = data.get('email', user.email)
         user.username = data.get('username', user.username)
         user.password = data.get("password", user.password)
-        user.id_role = data.get('role', user.id_role)
+
+        role = Roles.objects.filter(id=data.get('id_role_id', 2)).first()
+        user.id_role = role
         user.save()
         return True
 
