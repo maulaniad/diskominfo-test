@@ -41,6 +41,8 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         request.session.flush()
+        storage = messages.get_messages(request)
+        storage.used = True
         return redirect(to="web:login")
 
 
