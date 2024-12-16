@@ -6,25 +6,29 @@
 <div class="d-flex justify-content-center vh-100 bg-gray-100">
   <div class="container">
     <h1 class="text-center text-3xl font-semibold text-gray-800 mb-6">Tambah Course Baru</h1>
-    
+
     <!-- Form -->
     <div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
-        <form method="POST" action="{% url 'web:courses:form-create' %}" class="row g-3">
+        {% if action == 'update' %}
+            <form method="POST" action="{% url 'web:courses:form-detail' id=id %}" class="row g-3">
+            {% else %}
+            <form method="POST" action="{% url 'web:courses:form-create' %}" class="row g-3">
+        {% endif %}
             {% csrf_token %}
 
             <div class="col-12">
                 <label for="course" class="form-label">Course Name</label>
-                <input type="text" name="course" id="course" class="form-control" required>
+                <input type="text" name="course" id="course" class="form-control" value="{{ course }}" required>
             </div>
 
             <div class="col-12">
                 <label for="mentor" class="form-label">Mentor</label>
-                <input type="text" name="mentor" id="mentor" class="form-control" required>
+                <input type="text" name="mentor" id="mentor" class="form-control" value="{{ mentor }}" required>
             </div>
 
             <div class="col-12">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" name="title" id="title" class="form-control" required>
+                <input type="text" name="title" id="title" class="form-control" value="{{ title }}" required>
             </div>
 
             <div class="col-12 text-center">

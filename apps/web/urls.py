@@ -13,8 +13,8 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), name="logout"),
     path('dashboard', DashboardView.as_view(), name="dashboard"),
 
-    path('courses', include('apps.web.courses.urls')),
-    path('users', include('apps.web.users.urls')),
+    path('courses/', include('apps.web.courses.urls')),
+    path('users/', include('apps.web.users.urls')),
 
     path('usercourse', UserCourseView.as_view(), name="usercourse"),
 ]
