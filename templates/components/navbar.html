@@ -1,0 +1,33 @@
+<nav class="bg-dark text-white flex-shrink-0 flex-column p-3" style="width: 250px; height: 100vh;">
+  <h5 class="text-center">Course XYZ</h5>
+  <hr>
+  <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="{% url "web:dashboard" %}" class="nav-link text-white {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+          Home
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url "web:courses" %}" class="nav-link text-white {% if request.resolver_match.url_name == 'charts' %}active{% endif %}">
+          Courses
+        </a>
+      </li>
+      {% if request.session.is_admin %}
+        <li class="nav-item">
+          <a href="{% url "web:users" %}" class="nav-link text-white {% if request.resolver_match.url_name == 'charts' %}active{% endif %}">
+            Users
+          </a>
+        </li>
+      {% endif %}
+      <li class="nav-item">
+        <a href="{% url "web:usercourse" %}" class="nav-link text-white {% if request.resolver_match.url_name == 'charts' %}active{% endif %}">
+          User Course
+        </a>
+      </li>
+  </ul>
+  <hr>
+  <!-- Logout Button -->
+  <div class="mt-auto">
+    <a href="{% url "web:logout" %}" class="btn btn-danger w-100">Logout</a>
+  </div>
+</nav>
