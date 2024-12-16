@@ -1,3 +1,7 @@
+![Screenshot A](https://i.imgur.com/6PUeZBH.png)
+![Screenshot B](https://i.imgur.com/H1eLTH1.png)
+
+
 Setup:
 
 1. Install Poetry
