@@ -8,13 +8,13 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{% url "web:courses" %}" class="nav-link text-white {% if request.resolver_match.url_name == 'charts' %}active{% endif %}">
+        <a href="{% url "web:courses:index" %}" class="nav-link text-white {% if request.resolver_match.url_name == 'charts' %}active{% endif %}">
           Courses
         </a>
       </li>
       {% if request.session.is_admin %}
         <li class="nav-item">
-          <a href="{% url "web:users" %}" class="nav-link text-white {% if request.resolver_match.url_name == 'charts' %}active{% endif %}">
+          <a href="{% url "web:users:index" %}" class="nav-link text-white {% if request.resolver_match.url_name == 'charts' %}active{% endif %}">
             Users
           </a>
         </li>

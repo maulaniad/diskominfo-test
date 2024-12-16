@@ -7,7 +7,7 @@
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="text-center mb-4">Data Course</h2>
       <div>
-        <a href="{% url 'web:courses-form' %}" class="btn btn-primary ms-auto">Tambah</a>
+        <a href="{% url 'web:courses:form-create' %}" class="btn btn-primary ms-auto">Tambah</a>
       </div>
     </div>
     <table class="table table-striped table-bordered">
@@ -27,7 +27,7 @@
           <td>{{ item.mentor }}., {{ item.title }}</td>
           <td class="d-flex">
             <a href="#" class="btn btn-primary me-2">Edit</a>
-            <a href="{% url "web:courses-delete" item.id %}" class="btn btn-danger">Delete</a>
+            <a href="{% url "web:courses:delete" item.id %}" class="btn btn-danger">Delete</a>
           </td>
         </tr>
         {% endfor %}

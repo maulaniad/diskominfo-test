@@ -57,6 +57,7 @@ class UsersRepository:
         user.email = data.get('email', user.email)
         user.username = data.get('username', user.username)
         user.password = data.get("password", user.password)
+        user.id_role = data.get('role', user.id_role)
         user.save()
         return True
 

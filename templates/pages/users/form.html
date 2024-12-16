@@ -6,10 +6,10 @@
 <div class="d-flex justify-content-center vh-100 bg-gray-100">
   <div class="container">
     <h1 class="text-center text-3xl font-semibold text-gray-800 mb-6">Tambah User Baru</h1>
-    
+
     <!-- Form -->
     <div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">        
-        <form method="POST" action="{% url 'web:courses-form' %}" class="row g-3">
+        <form method="POST" action="{% url 'web:users-form' %}" class="row g-3">
             {% csrf_token %}
 
             <div class="col-12">
